@@ -1,84 +1,260 @@
 # DataScience
-# Resume Screening AI
+# 💼 Resume Screening AI (NLP-Based Ranking & Classification System)
+📌 Project Overview
 
-## 📌 Project Overview
-This project implements a Resume Screening AI system that automatically ranks resumes based on their similarity to a given job description using Natural Language Processing (NLP) techniques.
+Resume Screening AI is an intelligent NLP-based system that helps recruiters automatically:
 
-The goal is to help recruiters shortlist candidates efficiently by matching resumes with job requirements.
+✅ Classify resumes into job categories
 
----
+✅ Rank resumes based on job description similarity
 
-## 🚀 Features
-- Resume dataset loading and analysis
-- Text preprocessing (cleaning and normalization)
-- TF-IDF vectorization
-- Cosine similarity-based resume ranking
-- Similarity score generation
+✅ Generate match percentage scores
 
----
+✅ Highlight matched keywords
 
-## 🛠️ Technologies Used
-- Python
-- Pandas
-- NLTK
-- Scikit-learn
-- Regular Expressions
-- Google Colab / Jupyter Notebook
+✅ Export shortlisted candidates
 
----
+The system uses Natural Language Processing (NLP) and Machine Learning techniques to match resumes with job requirements efficiently.
 
-## 📂 Dataset
-The dataset contains resumes labeled with job categories.
+🎯 Problem Statement
 
-File used:
-- `resume_dataset.csv`
+Recruiters receive hundreds of resumes for a single job opening.
+Manually reviewing them is:
 
-Dataset Details:
-- 169 resumes
-- 2 columns: Category, Resume
+Time-consuming
 
----
+Error-prone
 
-## ⚙️ Project Execution Process
+Inefficient
 
-### 🔹 Day 1 – Dataset Understanding
-- Loaded dataset using Pandas
-- Checked dataset shape and structure
-- Explored job categories
-- Displayed sample resumes
+This project automates resume screening using text similarity and classification models to assist in smart shortlisting.
 
-### 🔹 Day 2 – Text Preprocessing
-- Converted text to lowercase
-- Removed numbers and special characters
-- Removed stopwords
-- Fixed encoding issues
-- Created `cleaned_resume` column
+🚀 Key Features
+🔹 Resume Ranking (Similarity-Based)
 
-### 🔹 Day 3 – TF-IDF Vectorization
-- Applied `TfidfVectorizer`
-- Converted cleaned resumes into numerical feature vectors
-- Generated TF-IDF matrix
+Upload job description
 
-### 🔹 Day 4 – Resume Ranking
-- Created a sample job description
-- Transformed job description using TF-IDF
-- Calculated cosine similarity
-- Ranked resumes based on similarity score
+Upload multiple resumes (PDF)
 
----
+Calculate cosine similarity
 
-## 📊 Output
-- TF-IDF feature matrix
-- Similarity score for each resume
-- Ranked list of resumes matching job description
+Generate match %
 
----
+Rank candidates automatically
 
-## 📌 Future Improvements
-- Add PDF/DOCX resume upload feature
-- Implement classification model
-- Deploy as web application (Streamlit)
-- Add keyword highlighting for explainability
+🔹 Resume Classification (ML-Based)
 
+Predict job category:
+
+Data Science
+
+Software Engineering
+
+Healthcare
+
+Finance
+
+HR
+
+Engineering
+
+and more...
+
+🔹 Explainability
+
+Highlight matched keywords
+
+Display similarity score
+
+Show predicted category
+
+🔹 Web Application
+
+Built using Streamlit
+
+Clean and interactive UI
+
+CSV download for shortlisted candidates
+
+🛠️ Technologies Used
+Category	Tools Used
+Programming	Python
+Data Handling	Pandas, NumPy
+NLP	NLTK, Regex
+Feature Engineering	TF-IDF
+Machine Learning	Scikit-learn (SVM / Logistic Regression)
+Similarity	Cosine Similarity
+Web App	Streamlit
+PDF Extraction	PyPDF2
+📂 Dataset
+Primary Dataset
+
+File: resume_dataset.csv
+
+169 resumes
+
+Columns:
+
+Category
+
+Resume
+
+Extended Dataset (Advanced Version)
+
+2484 resumes
+
+24+ job categories
+
+Used for improved classification accuracy
+
+⚙️ Project Execution Flow
+🔹 Day 1 – Dataset Understanding
+
+Loaded dataset using Pandas
+
+Checked shape and structure
+
+Explored category distribution
+
+Displayed sample resumes
+
+🔹 Day 2 – Text Preprocessing
+
+Converted text to lowercase
+
+Removed numbers and special characters
+
+Removed stopwords
+
+Handled encoding issues
+
+Created cleaned_resume column
+
+🔹 Day 3 – TF-IDF Vectorization
+
+Applied TfidfVectorizer
+
+Converted text into numerical feature vectors
+
+Generated TF-IDF matrix
+
+🔹 Day 4 – Similarity Calculation
+
+Transformed job description using TF-IDF
+
+Applied cosine similarity
+
+Ranked resumes based on similarity score
+
+🔹 Day 5 – Model Building
+
+Trained classification model
+
+Used:
+
+LinearSVC / Logistic Regression
+
+Evaluated using:
+
+Accuracy
+
+Precision
+
+Recall
+
+F1-score
+
+Confusion Matrix
+
+🔹 Day 6 – Model Improvement
+
+Hyperparameter tuning
+
+Used larger dataset
+
+Improved accuracy to ~74%
+
+🔹 Day 7 – Deployment
+
+Saved trained model (.pkl)
+
+Built Streamlit application
+
+Integrated:
+
+Resume upload
+
+Job description input
+
+Ranking system
+
+Category prediction
+
+CSV export
+
+📊 Model Performance (Improved Version)
+
+Accuracy: ~74%
+
+Multi-class classification (24 categories)
+
+Balanced macro & weighted F1 score
+
+🖥️ Application Workflow
+
+Paste Job Description
+
+Upload Resume PDFs
+
+System:
+
+Extracts text
+
+Cleans text
+
+Vectorizes text
+
+Predicts category
+
+Calculates similarity
+
+Displays:
+
+Ranked candidates
+
+Match %
+
+Matched keywords
+
+Download shortlisted candidates as CSV
+
+📸 System Architecture
+
+Input → Preprocessing → TF-IDF →
+Classification Model → Similarity Calculation → Ranking → Output
+
+📊 Output
+
+Ranked candidate list
+
+Match percentage
+
+Predicted job category
+
+Highlighted keywords
+
+Downloadable shortlist
+
+📌 Future Improvements
+
+Use BERT / Transformer embeddings
+
+Improve subfield prediction (e.g., Data Science vs Software Engineering)
+
+Add database integration
+
+Deploy on cloud (Render / AWS / Streamlit Cloud)
+
+Add recruiter dashboard analytics
 ---
 
