@@ -255,6 +255,6 @@ Add database integration
 
 Deploy on cloud (Render / AWS / Streamlit Cloud)
 
-Add recruiter dashboard analytics
+
 ---
 
