@@ -5,7 +5,7 @@ Automatic resume ranking system** that helps recruiters quickly shortlist candid
 
 ---
 
-## 📌 Project Overview
+##  Project Overview
 
 Recruiting is time‑consuming, especially when sifting through hundreds of resumes. This
 project provides a prototype AI pipeline that:
@@ -20,17 +20,17 @@ extended to a production‑grade application.
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
-- ✅ Data ingestion and exploratory analysis
-- ✅ Text preprocessing (lowercasing, punctuation removal, stop‑word filtering)
-- ✅ TF–IDF vectorization of resume text
-- ✅ Cosine similarity scoring against a sample job description
-- ✅ Sorted ranking of candidate resumes
+-  Data ingestion and exploratory analysis
+-  Text preprocessing (lowercasing, punctuation removal, stop‑word filtering)
+-  TF–IDF vectorization of resume text
+-  Cosine similarity scoring against a sample job description
+-  Sorted ranking of candidate resumes
 
 ---
 
-## 🛠️ Technologies & Dependencies
+##  Technologies & Dependencies
 
 | Category | Tools / Libraries |
 |----------|-------------------|
@@ -47,7 +47,7 @@ Additional utilities:
 
 ---
 
-## 📂 Dataset
+##  Dataset
 
 The dataset used for this project is a simple CSV containing sample resumes
 mapped to job categories.
@@ -127,7 +127,7 @@ Screenshots or exported CSVs can be added here for clarity.
 
 ---
 
-## 🏗️ Architecture & Workflow
+##  Architecture & Workflow
 
 ### System Architecture
 
@@ -168,7 +168,7 @@ highlighting how resumes are transformed and compared against job descriptions.
 
 ---
 
-## 📌 Future Enhancements
+##  Future Enhancements
 
 The current prototype can be expanded along several dimensions:
 
@@ -201,8 +201,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 For questions or feedback, reach out to:
 
-- **Author**: Kavana S Harthal
-- **Email**: <your-email@example.com>
+- **Author**: Kavana S Harthal,Preethi kumari,Tejaswini r
+- 
 
 ---
 
