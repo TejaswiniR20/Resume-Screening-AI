@@ -6,137 +6,115 @@ from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-nltk.download("stopwords")
+# Download stopwords (only first time)
+nltk.download('stopwords')
 
-# Page Config
-st.set_page_config(
-    page_title="Resume Screening System",
-    page_icon="📄"
-)
+stop_words = set(stopwords.words('english'))
 
-st.title("📄 Resume Screening System")
-st.write("Upload Resume Dataset & Paste Job Description")
-
-# Upload CSV
-uploaded_file = st.file_uploader("Upload Resume CSV", type=["csv"])
-
-# Stopwords
-stop_words = set(stopwords.words("english"))
-
-# Skill List (You can add more)
-SKILLS = [
-    "python", "java", "sql", "c++", "c", "html", "css", "javascript",
-    "machine learning", "deep learning", "nlp", "pandas", "numpy",
-    "tensorflow", "keras", "power bi", "tableau", "excel", "aws",
-    "docker", "git", "linux"
-]
-
-# Preprocess
+# -----------------------------
+# Text Cleaning Function
+# -----------------------------
 def preprocess(text):
+
     text = str(text).lower()
-    text = re.sub(r"\d+", "", text)
-    text = re.sub(r"[^\w\s]", "", text)
-    text = re.sub(r"\s+", " ", text).strip()
+
+    text = re.sub(r'\d+', '', text)
+    text = re.sub(r'[^\w\s]', '', text)
 
     words = text.split()
-    words = [w for w in words if w not in stop_words]
+    words = [word for word in words if word not in stop_words]
 
     return " ".join(words)
 
 
-# Extract Name (basic)
-def extract_name(text):
-    lines = text.split("\n")
+# -----------------------------
+# Page Title
+# -----------------------------
+st.set_page_config(page_title="Resume Screening System")
 
-    for line in lines[:5]:
-        line = line.strip()
+st.title("📄 Resume Screening System")
+st.write("Upload Resume Dataset & Paste Job Description")
 
-        if len(line.split()) <= 3 and line.isalpha():
-            return line.title()
+# -----------------------------
+# Upload CSV
+# -----------------------------
+uploaded_file = st.file_uploader("Upload Resume CSV", type=["csv"])
 
-    return "Not Found"
-
-
-# Extract Skills
-def extract_skills(text):
-
-    text = text.lower()
-    found = []
-
-    for skill in SKILLS:
-        if skill in text:
-            found.append(skill.title())
-
-    if len(found) == 0:
-        return "Not Mentioned"
-
-    return ", ".join(found)
-
-
-# Main App
-if uploaded_file:
+if uploaded_file is not None:
 
     df = pd.read_csv(uploaded_file)
 
-    st.success("Dataset Loaded")
+    st.success("Dataset Loaded Successfully!")
 
+    st.write("### Preview of Dataset")
+    st.dataframe(df.head())
+
+    # Check columns
     if "Resume" not in df.columns or "Category" not in df.columns:
-        st.error("CSV must contain Resume and Category columns")
+        st.error("CSV must contain 'Resume' and 'Category' columns")
         st.stop()
 
-    # Add Resume ID
-    df["Resume_ID"] = range(1, len(df) + 1)
-
-    # Clean text
+    # -----------------------------
+    # Clean Resumes
+    # -----------------------------
     df["cleaned_resume"] = df["Resume"].apply(preprocess)
 
-    # Extract name & skills
-    df["Name"] = df["Resume"].apply(extract_name)
-    df["Skills"] = df["Resume"].apply(extract_skills)
+    # -----------------------------
+    # Job Description Input
+    # -----------------------------
+    st.write("### Paste Job Description")
 
-    # TF-IDF
-    tfidf = TfidfVectorizer()
-    tfidf_matrix = tfidf.fit_transform(df["cleaned_resume"])
+    job_description = st.text_area("Enter Job Description Here")
 
-    # Job Description
-    st.subheader("📝 Job Description")
-
-    job_description = st.text_area("Paste Job Description")
-
-    if st.button("🔍 Match Resumes"):
+    if st.button("Find Best Matches"):
 
         if job_description.strip() == "":
-            st.warning("Enter Job Description")
+            st.warning("Please enter Job Description")
+            st.stop()
 
-        else:
+        # Clean JD
+        cleaned_jd = preprocess(job_description)
 
-            jd_cleaned = preprocess(job_description)
+        # -----------------------------
+        # TF-IDF Vector
+        # -----------------------------
+        tfidf = TfidfVectorizer()
 
-            jd_vector = tfidf.transform([jd_cleaned])
+        tfidf_matrix = tfidf.fit_transform(df["cleaned_resume"])
 
-            similarity = cosine_similarity(jd_vector, tfidf_matrix)
+        jd_vector = tfidf.transform([cleaned_jd])
 
-            df["Match"] = similarity[0] * 100
+        # -----------------------------
+        # Cosine Similarity
+        # -----------------------------
+        similarity = cosine_similarity(jd_vector, tfidf_matrix)[0]
 
-            top_resumes = df.sort_values(
-                "Match",
-                ascending=False
-            ).head(5)
+        df["match_score"] = similarity * 100   # Percentage
 
-            st.subheader("🏆 Top Candidates")
+        # -----------------------------
+        # Sort Top Results
+        # -----------------------------
+        top_matches = df.sort_values(
+            by="match_score",
+            ascending=False
+        ).head(5)
 
-            for _, row in top_resumes.iterrows():
+        st.write("## 🔝 Top Matching Resumes")
 
-                st.markdown(f"### 🆔 Resume ID: {row['Resume_ID']}")
+        # -----------------------------
+        # Display Results
+        # -----------------------------
+        for i, row in top_matches.iterrows():
 
+            st.markdown("---")
 
-                st.write(f"📂 Category: {row['Category']}")
-                st.write(f"🛠 Skills: {row['Skills']}")
-                st.write(f"✅ Match: {round(row['Match'],2)} %")
+            st.write(f"📌 **Category:** {row['Category']}")
+            st.write(f"✅ **Match:** {row['match_score']:.2f} %")
 
-                st.progress(min(row["Match"]/100, 1))
+            preview = row["Resume"][:400] + "..."
 
-                st.markdown("---")
+            st.write("📝 Resume Preview:")
+            st.info(preview)
 
 else:
-    st.info("Upload dataset to start")
+    st.info("👆 Upload a CSV file to begin")
